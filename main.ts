@@ -1,3 +1,6 @@
+input.onGesture(Gesture.EightG, function () {
+    callback("EV", "8G")
+})
 function check_for_led (text: string) {
     if (text == "CR") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
@@ -93,6 +96,7 @@ function check_for_led (text: string) {
     }
 }
 function check_for_wheels (text: string) {
+    let list: string[] = []
     if (text == "up" || text == "u") {
         set_motors("255", "255")
     }
@@ -154,9 +158,91 @@ bluetooth.onBluetoothDisconnected(function () {
         . . . . .
         `)
 })
+input.onGesture(Gesture.FreeFall, function () {
+    callback("EV", "FALL")
+})
+input.onGesture(Gesture.LogoUp, function () {
+    callback("EV", "LU")
+})
 function callback (prefix: string, value: string) {
-    let queue_push_uart: string[] = []
     queue_push_uart.push("*" + prefix + value + "*")
+}
+input.onGesture(Gesture.TiltLeft, function () {
+    callback("EV", "TL")
+})
+input.onGesture(Gesture.SixG, function () {
+    callback("EV", "6G")
+})
+input.onGesture(Gesture.ScreenUp, function () {
+    callback("EV", "SU")
+})
+function check_request_full_info (text: string) {
+    if ("?1ms" == text) {
+        time_between_state_emit_milliseconds = 100
+    }
+    if ("?5ms" == text) {
+        time_between_state_emit_milliseconds = 500
+    }
+    if ("?1s" == text) {
+        time_between_state_emit_milliseconds = 1000
+    }
+    if ("?5s" == text) {
+        time_between_state_emit_milliseconds = 5000
+    }
+    if ("?" == text) {
+        request_full_info()
+    }
+    if ("?C" == text) {
+        callback("C", "" + input.compassHeading())
+    }
+    if ("?S" == text) {
+        callback("S", "" + input.soundLevel())
+    }
+    if ("?L" == text) {
+        callback("L", "" + input.lightLevel())
+    }
+    if ("?T" == text) {
+        callback("T", "" + input.temperature())
+    }
+    if ("?A" == text) {
+        callback("AX", "" + input.acceleration(Dimension.X))
+        callback("AY", "" + input.acceleration(Dimension.Y))
+        callback("AZ", "" + input.acceleration(Dimension.Z))
+        callback("AS", "" + input.acceleration(Dimension.Strength))
+    }
+    if ("?AX" == text) {
+        callback("AX", "" + input.acceleration(Dimension.X))
+    }
+    if ("?AY" == text) {
+        callback("AY", "" + input.acceleration(Dimension.Y))
+    }
+    if ("?AZ" == text) {
+        callback("AZ", "" + input.acceleration(Dimension.Z))
+    }
+    if ("?AS" == text) {
+        callback("AS", "" + input.acceleration(Dimension.Strength))
+    }
+    if ("?ML" == text) {
+        callback("ML", "" + current_motor_left)
+    }
+    if ("?MR" == text) {
+        callback("MR", "" + current_motor_right)
+    }
+    if ("?LRL" == text) {
+        callback("LRL", "" + MiniCar.PH1())
+    }
+    if ("?LRR" == text) {
+        callback("LRR", "" + MiniCar.PH2())
+    }
+    if ("?LT" == text) {
+        callback("LT", "" + MiniCar.LineTracking())
+    }
+    if ("?TIME" == text) {
+        callback("TIME", "" + input.runningTime())
+    }
+    if ("?US" == text) {
+        callback("US", "" + current_ultrasonic)
+    }
 }
 function set_motor_left_from_uart (speed: string) {
     uart_motor_left = speed
@@ -166,6 +252,9 @@ function set_motor_left_from_uart (speed: string) {
         MiniCar.motor(Motorlist.M1, Direction1.Forward, parseFloat(speed))
     }
 }
+input.onGesture(Gesture.ScreenDown, function () {
+    callback("EV", "SD")
+})
 input.onSound(DetectedSound.Loud, function () {
     callback("LOUD", "")
 })
@@ -173,10 +262,19 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
     queue_data_waiting.push(bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine)))
     received_data_pack_count += 1
 })
+input.onButtonPressed(Button.AB, function () {
+    callback("EV", "AB")
+})
+input.onGesture(Gesture.Shake, function () {
+    callback("EV", "SHAKE")
+})
 function set_motors (left: string, right: string) {
     set_motor_left_from_uart(left)
     set_motor_right_from_uart(right)
 }
+input.onGesture(Gesture.TiltRight, function () {
+    callback("EV", "TR")
+})
 function check_pins (text: string) {
     if (text == "P1") {
         pins.analogWritePin(AnalogPin.P0, 1023)
@@ -227,6 +325,9 @@ function check_pins (text: string) {
         pins.digitalWritePin(DigitalPin.P10, 0)
     }
 }
+input.onGesture(Gesture.LogoDown, function () {
+    callback("EV", "LD")
+})
 input.onSound(DetectedSound.Quiet, function () {
     callback("quiet", "")
 })
@@ -241,20 +342,37 @@ function set_motor_right_from_uart (speed: string) {
 input.onLogoEvent(TouchButtonEvent.Pressed, function () {
     callback("LOGO", "")
 })
+input.onGesture(Gesture.ThreeG, function () {
+    callback("EV", "3G")
+})
 input.onLogoEvent(TouchButtonEvent.Released, function () {
     callback("logo", "")
 })
+function request_full_info () {
+    callback("C", "" + input.compassHeading())
+    callback("S", "" + input.soundLevel())
+    callback("L", "" + input.lightLevel())
+    callback("T", "" + input.temperature())
+    callback("AX", "" + input.acceleration(Dimension.X))
+    callback("AY", "" + input.acceleration(Dimension.Y))
+    callback("AZ", "" + input.acceleration(Dimension.Z))
+    callback("AS", "" + input.acceleration(Dimension.Strength))
+    callback("ML", "" + current_motor_left)
+    callback("MR", "" + current_motor_right)
+    callback("LRL", "" + MiniCar.PH1())
+    callback("LRR", "" + MiniCar.PH2())
+    callback("LT", "" + MiniCar.LineTracking())
+    callback("TIME", "" + input.runningTime())
+    callback("US", "" + current_ultrasonic)
+}
 let ldr_r = 0
 let ldr_l = 0
 let previous_ldr_r = ""
 let previous_ldr_l = ""
 let current_line_tracking = 0
 let previous_line_tracking = 0
-let current_ultrasonic = 0
 let previous_ultrasonic = 0
-let current_motor_right = ""
 let previous_motor_right = ""
-let current_motor_left = ""
 let previous_motor_left = ""
 let current_button_b = 0
 let previous_button_b = 0
@@ -265,8 +383,13 @@ let uart_motor_right = ""
 let received_data_pack_count = 0
 let queue_data_waiting: string[] = []
 let uart_motor_left = ""
-let list: string[] = []
+let current_ultrasonic = 0
+let current_motor_right = ""
+let current_motor_left = ""
+let time_between_state_emit_milliseconds = 0
+let queue_push_uart: string[] = []
 let split_list: string[] = []
+let export_spliter = "_"
 irRemote.connectInfrared(DigitalPin.P16)
 MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
 MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
@@ -278,6 +401,7 @@ basic.forever(function () {
     data = queue_data_waiting.shift()
     check_for_led(data)
     check_for_wheels(data)
+    check_request_full_info(data)
 })
 basic.forever(function () {
     previous_button_a = current_button_a
@@ -294,64 +418,62 @@ basic.forever(function () {
     }
     if (previous_button_a != current_button_a) {
         if (1 == current_button_a) {
-            callback("A", "1")
+            callback("A", "")
         } else {
-            callback("A", "0")
+            callback("a", "")
         }
     }
     if (previous_button_b != current_button_b) {
         if (1 != current_button_b) {
-            callback("B", "1")
+            callback("B", "")
         } else {
-            callback("B", "0")
+            callback("b", "")
         }
     }
 })
 basic.forever(function () {
-    if (list.length > 0) {
-        bluetooth.uartWriteLine(list.shift())
+    if (queue_push_uart.length > 0) {
+        bluetooth.uartWriteLine(queue_push_uart.shift())
     }
 })
 basic.forever(function () {
-    let current_ldr_r = ""
-    let current_ldr_l = ""
-    basic.pause(100)
-    previous_motor_left = current_motor_left
-    previous_motor_right = current_motor_right
-    previous_ultrasonic = current_ultrasonic
-    previous_line_tracking = current_line_tracking
-    previous_ldr_l = current_ldr_l
-    previous_ldr_r = current_ldr_r
-    current_motor_left = uart_motor_left
-    current_motor_right = uart_motor_right
-    current_ultrasonic = MiniCar.ultra()
-    current_line_tracking = MiniCar.LineTracking()
-    ldr_l = MiniCar.PH1()
-    ldr_r = MiniCar.PH2()
-    callback_if_changed("LRL", previous_ldr_l, current_ldr_l)
-    callback_if_changed("LRR", previous_ldr_r, current_ldr_r)
-    callback_if_changed("LT", "" + previous_line_tracking, "" + current_line_tracking)
-    callback_if_changed("ML", previous_motor_left, current_motor_left)
-    callback_if_changed("MR", previous_motor_right, current_motor_right)
-    callback_if_changed("US", "" + previous_ultrasonic, "Hello" + current_ultrasonic)
+    if (time_between_state_emit_milliseconds > 0) {
+        let current_ldr_r = ""
+        let current_ldr_l = ""
+        basic.pause(time_between_state_emit_milliseconds)
+        callback("L", "" + input.lightLevel())
+        callback("T", "" + input.temperature())
+        callback("AX", "" + input.acceleration(Dimension.X))
+        callback("AY", "" + input.acceleration(Dimension.Y))
+        callback("AZ", "" + input.acceleration(Dimension.Z))
+        callback("AS", "" + input.acceleration(Dimension.Strength))
+        callback("C", "" + input.compassHeading())
+        callback("S", "" + input.soundLevel())
+        previous_motor_left = current_motor_left
+        previous_motor_right = current_motor_right
+        previous_ultrasonic = current_ultrasonic
+        previous_line_tracking = current_line_tracking
+        previous_ldr_l = current_ldr_l
+        previous_ldr_r = current_ldr_r
+        current_motor_left = uart_motor_left
+        current_motor_right = uart_motor_right
+        current_ultrasonic = MiniCar.ultra()
+        current_line_tracking = MiniCar.LineTracking()
+        ldr_l = MiniCar.PH1()
+        ldr_r = MiniCar.PH2()
+        callback_if_changed("LRL", previous_ldr_l, current_ldr_l)
+        callback_if_changed("LRR", previous_ldr_r, current_ldr_r)
+        callback_if_changed("LT", "" + previous_line_tracking, "" + current_line_tracking)
+        callback_if_changed("ML", previous_motor_left, current_motor_left)
+        callback_if_changed("MR", previous_motor_right, current_motor_right)
+        callback_if_changed("US", "" + previous_ultrasonic, "" + current_ultrasonic)
+    }
 })
 basic.forever(function () {
-    basic.pause(100)
-    callback("C", "" + input.compassHeading())
-    callback("S", "" + input.soundLevel())
-})
-basic.forever(function () {
-    basic.pause(1000)
-    callback("L", "" + input.lightLevel())
-    callback("T", "" + input.temperature())
-    callback("AX", "" + input.acceleration(Dimension.X))
-    callback("AY", "" + input.acceleration(Dimension.Y))
-    callback("AZ", "" + input.acceleration(Dimension.Z))
-    callback("AS", "" + input.acceleration(Dimension.Strength))
-})
-basic.forever(function () {
-    basic.pause(100)
-    callback("RCI", "" + irRemote.returnIrButton())
+    basic.pause(10)
+    if (irRemote.returnIrButton() != 0) {
+        callback("RCI", "" + irRemote.returnIrButton())
+    }
     if (irRemote.returnIrButton() == irRemote.irButton(IrButton.Any)) {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
@@ -457,4 +579,10 @@ basic.forever(function () {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
         callback("RC", "26")
     }
+})
+basic.forever(function () {
+    basic.pause(5000)
+})
+basic.forever(function () {
+	
 })
