@@ -179,6 +179,36 @@ function check_for_wheels (text: string) {
         split_list = text.split("_")
         set_motors(list[1], list[2])
     }
+    if (text == "ML+") {
+        set_motor_left_from_uart("255")
+    }
+    if (text == "ML-") {
+        set_motor_left_from_uart("-255")
+    }
+    if (text == "ML0") {
+        set_motor_left_from_uart("0")
+    }
+    if (text == "MR+") {
+        set_motor_right_from_uart("255")
+    }
+    if (text == "MR-") {
+        set_motor_right_from_uart("-255")
+    }
+    if (text == "MR0") {
+        set_motor_right_from_uart("0")
+    }
+    if (text == "ML") {
+        set_motor_left_from_uart("255")
+    }
+    if (text == "ml") {
+        set_motor_left_from_uart("0")
+    }
+    if (text == "MR") {
+        set_motor_right_from_uart("255")
+    }
+    if (text == "mr") {
+        set_motor_right_from_uart("0")
+    }
 }
 function callback_if_changed (prefix: string, previous: string, current: string) {
     if (previous != current) {
@@ -487,9 +517,15 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
+	
+})
+basic.forever(function () {
     if (queue_push_uart.length > 0) {
         bluetooth.uartWriteLine(queue_push_uart.shift())
     }
+})
+basic.forever(function () {
+	
 })
 basic.forever(function () {
     if (time_between_state_emit_milliseconds > 0) {
