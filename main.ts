@@ -517,15 +517,9 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
-	
-})
-basic.forever(function () {
     if (queue_push_uart.length > 0) {
         bluetooth.uartWriteLine(queue_push_uart.shift())
     }
-})
-basic.forever(function () {
-	
 })
 basic.forever(function () {
     if (time_between_state_emit_milliseconds > 0) {
