@@ -438,11 +438,12 @@ let queue_data_waiting: string[] = []
 let uart_motor_left = ""
 let current_motor_right = ""
 let current_motor_left = ""
-let time_between_state_emit_milliseconds = 0
 let queue_push_uart: string[] = []
 let split_list: string[] = []
 let current_color_right = ""
 let current_color_left = ""
+let time_between_state_emit_milliseconds = 0
+time_between_state_emit_milliseconds = 0
 let export_spliter = "_"
 irRemote.connectInfrared(DigitalPin.P16)
 MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
