@@ -1,3 +1,16 @@
+/**
+ * KS4036
+ * 
+ * https://github.com/EloiStree/HelloTwoWheelsCarKS4036
+ * 
+ * MICRO BIT HUB
+ * 
+ * https://github.com/EloiStree/2026_09_11_python_micro_bit_hub
+ * 
+ * UART TO KS4036
+ * 
+ * https://github.com/EloiStree/2026_09_12_makecode_hello_uart_bluetooth_ks_4036
+ */
 input.onGesture(Gesture.EightG, function () {
     callback("EV", "8G")
 })
@@ -5,94 +18,130 @@ function check_for_led (text: string) {
     if (text == "CR") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
+        if (true) {
+            current_color_left = "r"
+            current_color_right = "r"
+        }
     }
     if (text == "CG") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.green1)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.green1)
+        if (true) {
+            current_color_left = "g"
+            current_color_right = "g"
+        }
     }
     if (text == "CB") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.blue1)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
+        if (true) {
+            current_color_left = "b"
+            current_color_right = "b"
+        }
     }
     if (text == "CC") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.cyan)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.cyan)
+        if (true) {
+            current_color_left = "c"
+            current_color_right = "c"
+        }
     }
     if (text == "CP") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.purple)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.purple)
+        if (true) {
+            current_color_left = "p"
+            current_color_right = "p"
+        }
     }
     if (text == "CW") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
+        if (true) {
+            current_color_left = "w"
+            current_color_right = "w"
+        }
     }
     if (text == "CY") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.yellow)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.yellow)
+        if (true) {
+            current_color_left = "y"
+            current_color_right = "y"
+        }
     }
     if (text == "C0") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.black)
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
+        if (true) {
+            current_color_left = "0"
+            current_color_right = "0"
+        }
     }
     if (text == "CLR") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
+        current_color_left = "r"
     }
     if (text == "CLG") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.green1)
+        current_color_left = "g"
     }
     if (text == "CLB") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.blue1)
+        current_color_left = "b"
     }
     if (text == "CLC") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.cyan)
+        current_color_left = "c"
     }
     if (text == "CLP") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.purple)
+        current_color_left = "p"
     }
     if (text == "CLW") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
+        current_color_left = "w"
     }
     if (text == "CLY") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.yellow)
+        current_color_left = "y"
     }
     if (text == "CL0") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.black)
+        current_color_left = "0"
     }
     if (text == "CRR") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
+        current_color_right = "r"
     }
     if (text == "CRG") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.green1)
+        current_color_right = "g"
     }
     if (text == "CRB") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
+        current_color_right = "b"
     }
     if (text == "CRC") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.cyan)
+        current_color_right = "c"
     }
     if (text == "CRP") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.purple)
+        current_color_right = "p"
     }
     if (text == "CRW") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
+        current_color_right = "w"
     }
     if (text == "CRY") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.yellow)
+        current_color_right = "y"
     }
     if (text == "CR0") {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
-    }
-    if (0 == "CL_".indexOf(text)) {
-        split_list = text.split("_")
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_red_r, parseFloat(split_list[1]))
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_green_r, parseFloat(split_list[2]))
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_blue_r, parseFloat(split_list[3]))
-    }
-    if (0 == "CR_".indexOf(text)) {
-        split_list = text.split("_")
-        MiniCar.PWM_LED_R(pwm_led_r.pem_red_l, parseFloat(split_list[1]))
-        MiniCar.PWM_LED_R(pwm_led_r.pwm_green_l, parseFloat(split_list[2]))
-        MiniCar.PWM_LED_R(pwm_led_r.pwm_blue_l, parseFloat(split_list[3]))
+        current_color_right = "0"
     }
 }
 function check_for_wheels (text: string) {
@@ -241,7 +290,18 @@ function check_request_full_info (text: string) {
         callback("TIME", "" + input.runningTime())
     }
     if ("?US" == text) {
+        let current_ultrasonic = 0
         callback("US", "" + current_ultrasonic)
+    }
+    if ("?CL" == text) {
+        callback("CL", "" + current_color_left)
+    }
+    if ("?CR" == text) {
+        callback("CR", "" + current_color_right)
+    }
+    if ("?CLR" == text) {
+        callback("CL", "" + current_color_left)
+        callback("CR", "" + current_color_right)
     }
 }
 function set_motor_left_from_uart (speed: string) {
@@ -363,17 +423,10 @@ function request_full_info () {
     callback("LRR", "" + MiniCar.PH2())
     callback("LT", "" + MiniCar.LineTracking())
     callback("TIME", "" + input.runningTime())
-    callback("US", "" + current_ultrasonic)
+    callback("US", "" + MiniCar.ultra())
+    callback("CL", "" + current_color_left)
+    callback("CR", "" + current_color_right)
 }
-let ldr_r = 0
-let ldr_l = 0
-let previous_ldr_r = ""
-let previous_ldr_l = ""
-let current_line_tracking = 0
-let previous_line_tracking = 0
-let previous_ultrasonic = 0
-let previous_motor_right = ""
-let previous_motor_left = ""
 let current_button_b = 0
 let previous_button_b = 0
 let current_button_a = 0
@@ -383,12 +436,13 @@ let uart_motor_right = ""
 let received_data_pack_count = 0
 let queue_data_waiting: string[] = []
 let uart_motor_left = ""
-let current_ultrasonic = 0
 let current_motor_right = ""
 let current_motor_left = ""
 let time_between_state_emit_milliseconds = 0
 let queue_push_uart: string[] = []
 let split_list: string[] = []
+let current_color_right = ""
+let current_color_left = ""
 let export_spliter = "_"
 irRemote.connectInfrared(DigitalPin.P16)
 MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
@@ -438,36 +492,13 @@ basic.forever(function () {
 })
 basic.forever(function () {
     if (time_between_state_emit_milliseconds > 0) {
-        let current_ldr_r = ""
-        let current_ldr_l = ""
         basic.pause(time_between_state_emit_milliseconds)
-        callback("L", "" + input.lightLevel())
-        callback("T", "" + input.temperature())
-        callback("AX", "" + input.acceleration(Dimension.X))
-        callback("AY", "" + input.acceleration(Dimension.Y))
-        callback("AZ", "" + input.acceleration(Dimension.Z))
-        callback("AS", "" + input.acceleration(Dimension.Strength))
-        callback("C", "" + input.compassHeading())
-        callback("S", "" + input.soundLevel())
-        previous_motor_left = current_motor_left
-        previous_motor_right = current_motor_right
-        previous_ultrasonic = current_ultrasonic
-        previous_line_tracking = current_line_tracking
-        previous_ldr_l = current_ldr_l
-        previous_ldr_r = current_ldr_r
-        current_motor_left = uart_motor_left
-        current_motor_right = uart_motor_right
-        current_ultrasonic = MiniCar.ultra()
-        current_line_tracking = MiniCar.LineTracking()
-        ldr_l = MiniCar.PH1()
-        ldr_r = MiniCar.PH2()
-        callback_if_changed("LRL", previous_ldr_l, current_ldr_l)
-        callback_if_changed("LRR", previous_ldr_r, current_ldr_r)
-        callback_if_changed("LT", "" + previous_line_tracking, "" + current_line_tracking)
-        callback_if_changed("ML", previous_motor_left, current_motor_left)
-        callback_if_changed("MR", previous_motor_right, current_motor_right)
-        callback_if_changed("US", "" + previous_ultrasonic, "" + current_ultrasonic)
+        request_full_info()
     }
+})
+basic.forever(function () {
+    current_motor_left = uart_motor_left
+    current_motor_right = uart_motor_right
 })
 basic.forever(function () {
     basic.pause(10)
@@ -570,8 +601,8 @@ basic.forever(function () {
         callback("RC", "06")
     }
     if (irRemote.returnIrButton() == irRemote.irButton(IrButton.Number_0)) {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.cyan)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.black)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
         callback("RC", "16")
     }
     if (irRemote.returnIrButton() == irRemote.irButton(IrButton.Hash)) {
