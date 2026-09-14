@@ -143,9 +143,20 @@ function check_for_led (text: string) {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
         current_color_right = "0"
     }
+    if (0 == text.indexOf("CL_")) {
+        split_list = text.split("_")
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_red_r, 255 - parseFloat(split_list[1]))
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_green_r, 255 - parseFloat(split_list[2]))
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_blue_r, 255 - parseFloat(split_list[3]))
+    }
+    if (0 == text.indexOf("CR_")) {
+        split_list = text.split("_")
+        MiniCar.PWM_LED_R(pwm_led_r.pem_red_l, 255 - parseFloat(split_list[1]))
+        MiniCar.PWM_LED_R(pwm_led_r.pwm_green_l, 255 - parseFloat(split_list[2]))
+        MiniCar.PWM_LED_R(pwm_led_r.pwm_blue_l, 255 - parseFloat(split_list[3]))
+    }
 }
 function check_for_wheels (text: string) {
-    let list: string[] = []
     if (text == "up" || text == "u") {
         set_motors("255", "255")
     }
@@ -167,17 +178,17 @@ function check_for_wheels (text: string) {
     if (text == "full_right" || text == "rr") {
         set_motors("255", "-255")
     }
-    if (0 == "ML_".indexOf(text)) {
+    if (0 == text.indexOf("ML_")) {
         split_list = text.split("_")
-        set_motor_left_from_uart(list[1])
+        set_motor_left_from_uart(split_list[1])
     }
-    if (0 == "MR_".indexOf(text)) {
+    if (0 == text.indexOf("MR_")) {
         split_list = text.split("_")
-        set_motor_right_from_uart(list[1])
+        set_motor_right_from_uart(split_list[1])
     }
-    if (0 == "MLR_".indexOf(text)) {
+    if (0 == text.indexOf("MLR_")) {
         split_list = text.split("_")
-        set_motors(list[1], list[2])
+        set_motors(split_list[1], split_list[2])
     }
     if (text == "ML+") {
         set_motor_left_from_uart("255")
@@ -456,12 +467,18 @@ function request_full_info () {
     callback("US", "" + MiniCar.ultra())
     callback("CL", "" + current_color_left)
     callback("CR", "" + current_color_right)
+    callback("LT", "" + line_track_left)
+    callback("RT", "" + line_track_right)
 }
 let current_button_b = 0
 let previous_button_b = 0
 let current_button_a = 0
 let previous_button_a = 0
+let current_line_tracking = 0
+let previous_line_tracking = 0
 let data = ""
+let line_track_right = 0
+let line_track_left = 0
 let uart_motor_right = ""
 let received_data_pack_count = 0
 let queue_data_waiting: string[] = []
@@ -483,10 +500,42 @@ set_motors("255", "255")
 basic.pause(100)
 set_motors("0", "0")
 basic.forever(function () {
-    data = queue_data_waiting.shift()
-    check_for_led(data)
-    check_for_wheels(data)
-    check_request_full_info(data)
+    if (queue_data_waiting.length > 0) {
+        data = queue_data_waiting.shift()
+        check_for_led(data)
+        check_for_wheels(data)
+        check_request_full_info(data)
+    }
+})
+basic.forever(function () {
+    previous_line_tracking = current_line_tracking
+    current_line_tracking = MiniCar.LineTracking()
+    if (previous_line_tracking != current_line_tracking) {
+        if (current_line_tracking == 0) {
+            line_track_left = 1
+            line_track_right = 1
+            callback("LT1", "")
+            callback("RT1", "")
+        }
+        if (current_line_tracking == 1) {
+            line_track_left = 0
+            line_track_right = 1
+            callback("LT0", "")
+            callback("RT1", "")
+        }
+        if (current_line_tracking == 2) {
+            line_track_left = 1
+            line_track_right = 0
+            callback("LT1", "")
+            callback("RT0", "")
+        }
+        if (current_line_tracking == 3) {
+            line_track_left = 0
+            line_track_right = 0
+            callback("RT0", "")
+            callback("LT0", "")
+        }
+    }
 })
 basic.forever(function () {
     previous_button_a = current_button_a
