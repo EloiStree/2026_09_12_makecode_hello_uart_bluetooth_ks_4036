@@ -80,80 +80,80 @@ function check_for_led (text: string) {
         }
     }
     if (text == "CLR") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
         current_color_left = "r"
     }
     if (text == "CLG") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.green1)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.green1)
         current_color_left = "g"
     }
     if (text == "CLB") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.blue1)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
         current_color_left = "b"
     }
     if (text == "CLC") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.cyan)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.cyan)
         current_color_left = "c"
     }
     if (text == "CLP") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.purple)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.purple)
         current_color_left = "p"
     }
     if (text == "CLW") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
         current_color_left = "w"
     }
     if (text == "CLY") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.yellow)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.yellow)
         current_color_left = "y"
     }
     if (text == "CL0") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.black)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
         current_color_left = "0"
     }
     if (text == "CRR") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
         current_color_right = "r"
     }
     if (text == "CRG") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.green1)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.green1)
         current_color_right = "g"
     }
     if (text == "CRB") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.blue1)
         current_color_right = "b"
     }
     if (text == "CRC") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.cyan)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.cyan)
         current_color_right = "c"
     }
     if (text == "CRP") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.purple)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.purple)
         current_color_right = "p"
     }
     if (text == "CRW") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
         current_color_right = "w"
     }
     if (text == "CRY") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.yellow)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.yellow)
         current_color_right = "y"
     }
     if (text == "CR0") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.black)
         current_color_right = "0"
     }
     if (0 == text.indexOf("CL_")) {
         split_list = text.split("_")
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_red_r, 255 - parseFloat(split_list[1]))
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_green_r, 255 - parseFloat(split_list[2]))
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_blue_r, 255 - parseFloat(split_list[3]))
-    }
-    if (0 == text.indexOf("CR_")) {
-        split_list = text.split("_")
         MiniCar.PWM_LED_R(pwm_led_r.pem_red_l, 255 - parseFloat(split_list[1]))
         MiniCar.PWM_LED_R(pwm_led_r.pwm_green_l, 255 - parseFloat(split_list[2]))
         MiniCar.PWM_LED_R(pwm_led_r.pwm_blue_l, 255 - parseFloat(split_list[3]))
+    }
+    if (0 == text.indexOf("CR_")) {
+        split_list = text.split("_")
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_red_r, 255 - parseFloat(split_list[1]))
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_green_r, 255 - parseFloat(split_list[2]))
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_blue_r, 255 - parseFloat(split_list[3]))
     }
 }
 function check_for_wheels (text: string) {
@@ -577,10 +577,6 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
-    current_motor_left = uart_motor_left
-    current_motor_right = uart_motor_right
-})
-basic.forever(function () {
     basic.pause(10)
     if (irRemote.returnIrButton() != 0) {
         callback("RCI", "" + irRemote.returnIrButton())
@@ -690,6 +686,10 @@ basic.forever(function () {
         MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
         callback("RC", "26")
     }
+})
+basic.forever(function () {
+    current_motor_left = uart_motor_left
+    current_motor_right = uart_motor_right
 })
 basic.forever(function () {
     basic.pause(5000)
