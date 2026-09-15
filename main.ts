@@ -1,4 +1,86 @@
 /**
+ * (  ~mbit|t|P2> 10>  ~mbit|t|P8> 20> ~mbit|t|p2> 10> ~mbit|t|p8> 20> )x100
+ */
+/**
+ * # *C128* COMPASS
+ * 
+ * # *S15* SOUND
+ * 
+ * # *L0* LIGHT_MICRO_BIT
+ * 
+ * # *T31* TEMPERATURE
+ * 
+ * # *AX-16* ACCELEROMETER_X
+ * 
+ * # *AY1056* ACCELEROMETER_Y
+ * 
+ * # *AZ-32* ACCELEROMETER_Z
+ * 
+ * # *AS1056* ACCELEROMETER_STRENGTH
+ * 
+ * # *ML0* MOTOR_LEFT
+ * 
+ * # *MR0* MOTOR_RIGHT
+ * 
+ * # *LRL918* LIGHT_RESISTANCE_LEFT
+ * 
+ * # *LRR935* LIGHT_RESISTANCE_RIGHT
+ * 
+ * # *LT0* LINE_TACK_0123
+ * 
+ * # *TIME490390* TIME
+ * 
+ * # *US23* ULTRASONIC
+ * 
+ * # *CLR0G255B255* COLOR_LEFT_RESISTANCE
+ * 
+ * # *CRR0G255B255* COLOR_RIGHT_RESISTANCE
+ * 
+ * # *LT1* LINE_TRACK_LEFT
+ * 
+ * # *RT1* LINE_TRACK_RIGHT
+ * 
+ * # *EVSHAKE* SHAKED
+ * 
+ * # *EV3G* 3G FORCE
+ * 
+ * # *EV6G* 6G FORCE
+ * 
+ * # *EV8G* 8G FORCE
+ * 
+ * # *EVTR* TILT RIGHT
+ * 
+ * # *EVTL* TILT LEFT
+ * 
+ * # *EVLU* LOGO UP
+ * 
+ * # *EVLD* LOGO DOWN
+ * 
+ * # *EVSU* SCREEN UP
+ * 
+ * # *EVSU* SCREEN DOWN
+ * 
+ * # *EVFALL* MICRO BIT FALL
+ * 
+ * # *LOGO* LOGO TRUE
+ * 
+ * # *logo* LOGO FALSE
+ * 
+ * # *A* BUTTON A TRUE
+ * 
+ * # *a* BUTTON A FALSE
+ * 
+ * # *B* BUTTON B TRUE
+ * 
+ * # *b* BUTTON B FALSE
+ * 
+ * # *LOUD* LOUD TRUE
+ * 
+ * # *quiet* LOUD FALSE
+ * 
+ * # *EVAB* TRIGGER A+B
+ */
+/**
  * KS4036
  * 
  * https://github.com/EloiStree/HelloTwoWheelsCarKS4036
@@ -15,146 +97,7 @@ input.onGesture(Gesture.EightG, function () {
     callback("EV", "8G")
 })
 function check_for_led (text: string) {
-    if (text == "CR") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
-        if (true) {
-            current_color_left = "r"
-            current_color_right = "r"
-        }
-    }
-    if (text == "CG") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.green1)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.green1)
-        if (true) {
-            current_color_left = "g"
-            current_color_right = "g"
-        }
-    }
-    if (text == "CB") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.blue1)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
-        if (true) {
-            current_color_left = "b"
-            current_color_right = "b"
-        }
-    }
-    if (text == "CC") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.cyan)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.cyan)
-        if (true) {
-            current_color_left = "c"
-            current_color_right = "c"
-        }
-    }
-    if (text == "CP") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.purple)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.purple)
-        if (true) {
-            current_color_left = "p"
-            current_color_right = "p"
-        }
-    }
-    if (text == "CW") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
-        if (true) {
-            current_color_left = "w"
-            current_color_right = "w"
-        }
-    }
-    if (text == "CY") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.yellow)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.yellow)
-        if (true) {
-            current_color_left = "y"
-            current_color_right = "y"
-        }
-    }
-    if (text == "C0") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.black)
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
-        if (true) {
-            current_color_left = "0"
-            current_color_right = "0"
-        }
-    }
-    if (text == "CLR") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
-        current_color_left = "r"
-    }
-    if (text == "CLG") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.green1)
-        current_color_left = "g"
-    }
-    if (text == "CLB") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
-        current_color_left = "b"
-    }
-    if (text == "CLC") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.cyan)
-        current_color_left = "c"
-    }
-    if (text == "CLP") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.purple)
-        current_color_left = "p"
-    }
-    if (text == "CLW") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
-        current_color_left = "w"
-    }
-    if (text == "CLY") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.yellow)
-        current_color_left = "y"
-    }
-    if (text == "CL0") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
-        current_color_left = "0"
-    }
-    if (text == "CRR") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
-        current_color_right = "r"
-    }
-    if (text == "CRG") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.green1)
-        current_color_right = "g"
-    }
-    if (text == "CRB") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.blue1)
-        current_color_right = "b"
-    }
-    if (text == "CRC") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.cyan)
-        current_color_right = "c"
-    }
-    if (text == "CRP") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.purple)
-        current_color_right = "p"
-    }
-    if (text == "CRW") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
-        current_color_right = "w"
-    }
-    if (text == "CRY") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.yellow)
-        current_color_right = "y"
-    }
-    if (text == "CR0") {
-        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.black)
-        current_color_right = "0"
-    }
-    if (0 == text.indexOf("CL_")) {
-        split_list = text.split("_")
-        MiniCar.PWM_LED_R(pwm_led_r.pem_red_l, 255 - parseFloat(split_list[1]))
-        MiniCar.PWM_LED_R(pwm_led_r.pwm_green_l, 255 - parseFloat(split_list[2]))
-        MiniCar.PWM_LED_R(pwm_led_r.pwm_blue_l, 255 - parseFloat(split_list[3]))
-    }
-    if (0 == text.indexOf("CR_")) {
-        split_list = text.split("_")
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_red_r, 255 - parseFloat(split_list[1]))
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_green_r, 255 - parseFloat(split_list[2]))
-        MiniCar.PWM_LED_L(pwm_led_l.pwm_blue_r, 255 - parseFloat(split_list[3]))
-    }
+    set_color_left_right_from_text(text)
 }
 function check_for_wheels (text: string) {
     if (text == "up" || text == "u") {
@@ -227,8 +170,7 @@ function callback_if_changed (prefix: string, previous: string, current: string)
     }
 }
 bluetooth.onBluetoothConnected(function () {
-    MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.green1)
-    MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.green1)
+    set_color_left_right_from_text("CG")
     basic.showLeds(`
         . . . . .
         . . . . .
@@ -236,10 +178,14 @@ bluetooth.onBluetoothConnected(function () {
         # . . . #
         # # # # #
         `)
+    callback("CONNECTED", "")
 })
+function set_color_left_right_from_text (color_text: string) {
+    set_color_left(color_text)
+    set_color_right(color_text)
+}
 bluetooth.onBluetoothDisconnected(function () {
-    MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
-    MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
+    set_color_left_right_from_text("CR")
     basic.showLeds(`
         # # # # #
         # . . . #
@@ -266,6 +212,50 @@ input.onGesture(Gesture.SixG, function () {
 input.onGesture(Gesture.ScreenUp, function () {
     callback("EV", "SU")
 })
+function check_pin_2_8 () {
+    split_list = data.split("_")
+    if (split_list.length > 1) {
+        if ("LPWM" == split_list[0]) {
+            pins.servoWritePin(AnalogPin.P8, parseFloat(split_list[1]))
+        }
+        if ("RPWM" == split_list[0]) {
+            pins.servoWritePin(AnalogPin.P2, parseFloat(split_list[1]))
+        }
+        if ("P2" == split_list[0]) {
+            pins.servoWritePin(AnalogPin.P2, parseFloat(split_list[1]))
+        }
+    }
+    if ("LPWM+" == data) {
+        pins.servoWritePin(AnalogPin.P8, 180)
+    }
+    if ("LPWM0" == data) {
+        pins.servoWritePin(AnalogPin.P8, 90)
+    }
+    if ("LPWM-" == data) {
+        pins.servoWritePin(AnalogPin.P8, 0)
+    }
+    if ("RPWM+" == data) {
+        pins.servoWritePin(AnalogPin.P2, 180)
+    }
+    if ("RPWM0" == data) {
+        pins.servoWritePin(AnalogPin.P2, 90)
+    }
+    if ("RPWM-" == data) {
+        pins.servoWritePin(AnalogPin.P2, 0)
+    }
+    if ("PINL" == data) {
+        pins.digitalWritePin(DigitalPin.P8, 1)
+    }
+    if ("pinl" == data) {
+        pins.digitalWritePin(DigitalPin.P8, 0)
+    }
+    if ("PINR" == data) {
+        pins.digitalWritePin(DigitalPin.P2, 1)
+    }
+    if ("pinr" == data) {
+        pins.digitalWritePin(DigitalPin.P2, 0)
+    }
+}
 function check_request_full_info (text: string) {
     if ("?1ms" == text) {
         time_between_state_emit_milliseconds = 100
@@ -363,9 +353,75 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
     queue_data_waiting.push(bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine)))
     received_data_pack_count += 1
 })
+function check_for_servo (text: string) {
+    if (0 == text.indexOf("PS_")) {
+        split_list = text.split("_")
+        if (2 == parseFloat(split_list[1])) {
+            pins.servoWritePin(AnalogPin.P2, parseFloat(split_list[2]))
+        }
+        if (3 == parseFloat(split_list[1])) {
+            pins.servoWritePin(AnalogPin.P3, parseFloat(split_list[2]))
+        }
+        if (4 == parseFloat(split_list[1])) {
+            pins.servoWritePin(AnalogPin.P4, parseFloat(split_list[2]))
+        }
+        if (5 == parseFloat(split_list[1])) {
+            pins.servoWritePin(AnalogPin.P5, parseFloat(split_list[2]))
+        }
+        if (7 == parseFloat(split_list[1])) {
+            pins.servoWritePin(AnalogPin.P7, parseFloat(split_list[2]))
+        }
+        if (8 == parseFloat(split_list[1])) {
+            pins.servoWritePin(AnalogPin.P8, parseFloat(split_list[2]))
+        }
+        if (9 == parseFloat(split_list[1])) {
+            pins.servoWritePin(AnalogPin.P9, parseFloat(split_list[2]))
+        }
+        if (10 == parseFloat(split_list[1])) {
+            pins.servoWritePin(AnalogPin.P10, parseFloat(split_list[2]))
+        }
+    }
+}
 input.onButtonPressed(Button.AB, function () {
     callback("EV", "AB")
 })
+function set_color_left (color: string) {
+    if (color == "CR" || color == "CLR") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.red1)
+        current_color_left = "r"
+    }
+    if (color == "CG" || color == "CLG") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.green1)
+        current_color_left = "g"
+    }
+    if (color == "CB" || color == "CLB") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.blue1)
+        current_color_left = "b"
+    }
+    if (color == "CC" || color == "CLC") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.cyan)
+        current_color_left = "c"
+    }
+    if (color == "CW" || color == "CLW") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
+        current_color_left = "w"
+    }
+    if (color == "CY" || color == "CLY") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.yellow)
+        current_color_left = "y"
+    }
+    if (color == "C0" || color == "CL0") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.black)
+        current_color_left = "0"
+    }
+    if (0 == color.indexOf("C_") || 0 == color.indexOf("CL_")) {
+        split_list = color.split("_")
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_red_r, 255 - parseFloat(split_list[1]))
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_green_r, 255 - parseFloat(split_list[2]))
+        MiniCar.PWM_LED_L(pwm_led_l.pwm_blue_r, 255 - parseFloat(split_list[3]))
+        current_color_left = "R" + parseFloat(split_list[1]) + "G" + parseFloat(split_list[2]) + "B" + parseFloat(split_list[3])
+    }
+}
 input.onGesture(Gesture.Shake, function () {
     callback("EV", "SHAKE")
 })
@@ -377,11 +433,11 @@ input.onGesture(Gesture.TiltRight, function () {
     callback("EV", "TR")
 })
 function check_pins (text: string) {
-    if (text == "P1") {
-        pins.analogWritePin(AnalogPin.P0, 1023)
+    if (text == "P2") {
+        pins.analogWritePin(AnalogPin.P2, 1023)
     }
-    if (text == "p1") {
-        pins.analogWritePin(AnalogPin.P0, 0)
+    if (text == "p2") {
+        pins.analogWritePin(AnalogPin.P2, 0)
     }
     if (text == "P3") {
         pins.digitalWritePin(DigitalPin.P3, 1)
@@ -426,6 +482,43 @@ function check_pins (text: string) {
         pins.digitalWritePin(DigitalPin.P10, 0)
     }
 }
+function set_color_right (color: string) {
+    if (color == "CR" || color == "CRR") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.red1)
+        current_color_right = "r"
+    }
+    if (color == "CG" || color == "CRG") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.green1)
+        current_color_right = "g"
+    }
+    if (color == "CB" || color == "CRB") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.blue1)
+        current_color_right = "b"
+    }
+    if (color == "CC" || color == "CRC") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.cyan)
+        current_color_right = "c"
+    }
+    if (color == "CW" || color == "CRW") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
+        current_color_right = "w"
+    }
+    if (color == "CY" || color == "CRY") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.yellow)
+        current_color_right = "y"
+    }
+    if (color == "C0" || color == "CR0") {
+        MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.black)
+        current_color_right = "0"
+    }
+    if (0 == color.indexOf("C_") || 0 == color.indexOf("CR_")) {
+        split_list = color.split("_")
+        MiniCar.PWM_LED_R(pwm_led_r.pem_red_l, 255 - parseFloat(split_list[1]))
+        MiniCar.PWM_LED_R(pwm_led_r.pwm_green_l, 255 - parseFloat(split_list[2]))
+        MiniCar.PWM_LED_R(pwm_led_r.pwm_blue_l, 255 - parseFloat(split_list[3]))
+        current_color_right = "R" + parseFloat(split_list[1]) + "G" + parseFloat(split_list[2]) + "B" + parseFloat(split_list[3])
+    }
+}
 input.onGesture(Gesture.LogoDown, function () {
     callback("EV", "LD")
 })
@@ -446,6 +539,9 @@ input.onLogoEvent(TouchButtonEvent.Pressed, function () {
 input.onGesture(Gesture.ThreeG, function () {
     callback("EV", "3G")
 })
+function set_pin_reset () {
+	
+}
 input.onLogoEvent(TouchButtonEvent.Released, function () {
     callback("logo", "")
 })
@@ -465,8 +561,8 @@ function request_full_info () {
     callback("LT", "" + MiniCar.LineTracking())
     callback("TIME", "" + input.runningTime())
     callback("US", "" + MiniCar.ultra())
-    callback("CL", "" + current_color_left)
-    callback("CR", "" + current_color_right)
+    callback("CL", current_color_right)
+    callback("CR", current_color_left)
     callback("LT", "" + line_track_left)
     callback("RT", "" + line_track_right)
 }
@@ -476,35 +572,59 @@ let current_button_a = 0
 let previous_button_a = 0
 let current_line_tracking = 0
 let previous_line_tracking = 0
-let data = ""
+let pin_2_analog_read_value = 0
+let pin_8_digit_read_value = 0
 let line_track_right = 0
 let line_track_left = 0
 let uart_motor_right = ""
 let received_data_pack_count = 0
 let queue_data_waiting: string[] = []
 let uart_motor_left = ""
-let current_motor_right = ""
-let current_motor_left = ""
-let queue_push_uart: string[] = []
-let split_list: string[] = []
 let current_color_right = ""
 let current_color_left = ""
+let current_motor_right = ""
+let current_motor_left = ""
+let data = ""
+let queue_push_uart: string[] = []
+let split_list: string[] = []
 let time_between_state_emit_milliseconds = 0
 time_between_state_emit_milliseconds = 0
 let export_spliter = "_"
 irRemote.connectInfrared(DigitalPin.P16)
-MiniCar.led_rgb(LED_rgb_L_R.LED_L, LED_color.white)
-MiniCar.led_rgb(LED_rgb_L_R.LED_R, LED_color.white)
+set_color_left_right_from_text("CW")
 basic.showIcon(IconNames.Square)
 set_motors("255", "255")
 basic.pause(100)
 set_motors("0", "0")
+set_pin_reset()
+basic.forever(function () {
+    let is_reading_pin_right_analog = 0
+    let is_reading_pin_left_digit = 0
+    if (is_reading_pin_left_digit) {
+        pin_8_digit_read_value = pins.digitalReadPin(DigitalPin.P8)
+    }
+    if (is_reading_pin_right_analog) {
+        pin_2_analog_read_value = pins.analogReadPin(AnalogReadWritePin.P2)
+    }
+})
+basic.forever(function () {
+    basic.pause(2000)
+})
+basic.forever(function () {
+	
+})
+basic.forever(function () {
+	
+})
 basic.forever(function () {
     if (queue_data_waiting.length > 0) {
         data = queue_data_waiting.shift()
         check_for_led(data)
         check_for_wheels(data)
         check_request_full_info(data)
+        check_for_servo(data)
+        check_pins(data)
+        check_pin_2_8()
     }
 })
 basic.forever(function () {
@@ -690,10 +810,4 @@ basic.forever(function () {
 basic.forever(function () {
     current_motor_left = uart_motor_left
     current_motor_right = uart_motor_right
-})
-basic.forever(function () {
-    basic.pause(5000)
-})
-basic.forever(function () {
-	
 })
