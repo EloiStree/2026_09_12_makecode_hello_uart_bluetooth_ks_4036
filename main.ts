@@ -92,7 +92,7 @@
  */
 function append_five_boolean_to_b62_char_build_list (w1: boolean, w2: boolean, w3: boolean, w4: boolean, w5: boolean, g1: boolean, g2: boolean, g3: boolean, g4: boolean, g5: boolean, to_apppend_at_list: string) {
     if (w1 == g1 && (w2 == g2 && (w3 == g3 && (w4 == g4 && w5 == g5)))) {
-        building_list.push(to_apppend_at_list)
+        build_list_b32.push(to_apppend_at_list)
     }
 }
 function append_five_boolean_to_b62_char (w1: boolean, w2: boolean, w3: boolean, w4: boolean, w5: boolean, g1: boolean, g2: boolean, g3: boolean, g4: boolean, g5: boolean, to_apppend_at_list: string) {
@@ -386,8 +386,7 @@ function check_request_full_info (text: string) {
         callback("TIME", "" + input.runningTime())
     }
     if ("?US" == text) {
-        let current_ultrasonic = 0
-        callback("US", "" + current_ultrasonic)
+        callback("US", "" + MiniCar.ultra())
     }
     if ("?CL" == text) {
         callback("CL", "" + current_color_left)
@@ -398,6 +397,18 @@ function check_request_full_info (text: string) {
     if ("?CLR" == text) {
         callback("CL", "" + current_color_left)
         callback("CR", "" + current_color_right)
+    }
+    if ("?A_" == text) {
+        build_and_send_analog_uart()
+    }
+    if ("?B_" == text) {
+        build_and_send_boolean_uart()
+    }
+    if ("?A_1" == text) {
+        build_and_send_analog_uart()
+    }
+    if ("?A_0" == text) {
+        build_and_send_analog_uart()
     }
 }
 function set_motor_left_from_uart (speed: string) {
@@ -412,7 +423,7 @@ input.onGesture(Gesture.ScreenDown, function () {
     callback("EV", "SD")
 })
 input.onSound(DetectedSound.Loud, function () {
-    callback("LOUD", "")
+	
 })
 function clamp_value (value: number, min: number, max: number) {
     if (value < min) {
@@ -515,21 +526,22 @@ input.onGesture(Gesture.Shake, function () {
     callback("EV", "SHAKE")
 })
 function build_and_send_boolean_uart () {
-    building_list = []
+    build_list_b32 = []
     append_five_boolean_to_b32_build_list(input.buttonIsPressed(Button.A), input.buttonIsPressed(Button.B), input.logoIsPressed(), input.isGesture(Gesture.Shake), input.isGesture(Gesture.FreeFall))
     append_five_boolean_to_b32_build_list(bool_3g, bool_6g, bool_8g, input.isGesture(Gesture.LogoUp), input.isGesture(Gesture.LogoDown))
     append_five_boolean_to_b32_build_list(input.isGesture(Gesture.ScreenUp), input.isGesture(Gesture.ScreenDown), input.isGesture(Gesture.TiltLeft), input.isGesture(Gesture.TiltRight), true)
     append_five_boolean_to_b32_build_list(line_track_left == 1, line_track_right == 1, MiniCar.PH1() > 950, MiniCar.PH2() > 950, MiniCar.ultra() < 10)
     append_five_boolean_to_b32_build_list(parseFloat(current_motor_left) > 50, parseFloat(current_motor_right) > 50, parseFloat(current_motor_left) < -50, parseFloat(current_motor_right) < -50, binary_left_led_red)
     append_five_boolean_to_b32_build_list(binary_left_led_green, binary_left_led_blue, binary_right_led_red, binary_right_led_green, binary_right_led_blue)
+    append_five_boolean_to_b32_build_list(pins.digitalReadPin(DigitalPin.P8) == 1, pins.analogReadPin(AnalogReadWritePin.P2) > 200, MiniCar.ultra() > 30, MiniCar.ultra() > 50, MiniCar.ultra() > 100)
     string_build = ""
-    for (let value of building_list) {
+    for (let value of build_list_b32) {
         string_build = "" + string_build + value
     }
     previous_boolean_string_builder = current_boolean_string_builder
-    current_boolean_string_builder = "*B_" + string_build + "*"
+    current_boolean_string_builder = "B_" + string_build + ""
     if (previous_boolean_string_builder != current_boolean_string_builder) {
-        bluetooth.uartWriteLine(current_boolean_string_builder)
+        callback(current_boolean_string_builder, "")
     }
 }
 function set_motors (left: string, right: string) {
@@ -648,7 +660,7 @@ input.onGesture(Gesture.LogoDown, function () {
     callback("EV", "LD")
 })
 input.onSound(DetectedSound.Quiet, function () {
-    callback("quiet", "")
+	
 })
 function add_if_value_equals_to_b62 (value: string, is_equals: string, append: string) {
     if (value == is_equals) {
@@ -726,6 +738,12 @@ function append_int_as_b62_building_list (int_value: string) {
     add_if_value_equals_to_b62(int_value, "59", "x")
     add_if_value_equals_to_b62(int_value, "60", "y")
     add_if_value_equals_to_b62(int_value, "61", "z")
+    if (parseFloat(int_value) < 0) {
+        building_list.push("0")
+    }
+    if (parseFloat(int_value) > 61) {
+        building_list.push("z")
+    }
 }
 input.onLogoEvent(TouchButtonEvent.Pressed, function () {
     callback("LOGO", "")
@@ -737,48 +755,50 @@ input.onGesture(Gesture.ThreeG, function () {
     callback("EV", "3G")
 })
 function build_and_send_analog_uart () {
-    building_list = []
     if (true) {
-        append_int_as_b62_building_list(convertToText(Math.round(input.runningTime() / 60000 % 60)))
-        append_int_as_b62_building_list(convertToText(Math.round(input.runningTime() / 1000 % 60)))
+        building_list = []
+        if (false) {
+            append_int_as_b62_building_list(convertToText(Math.round(input.runningTime() / 60000 % 60)))
+            append_int_as_b62_building_list(convertToText(Math.round(input.runningTime() / 1000 % 60)))
+        }
+        if (true) {
+            append_int_as_b62_building_list(convertToText(Math.round(input.temperature())))
+            append_255_as_b62_building_list(input.soundLevel())
+            append_255_as_b62_building_list(input.lightLevel())
+        }
+        if (true) {
+            append_s1023_as_b62_building_list(input.acceleration(Dimension.X))
+            append_s1023_as_b62_building_list(input.acceleration(Dimension.Y))
+            append_s1023_as_b62_building_list(input.acceleration(Dimension.Z))
+        }
+        if (true) {
+            append_s255_as_b62_building_list(parseFloat(current_motor_left))
+            append_s255_as_b62_building_list(parseFloat(current_motor_right))
+        }
+        if (true) {
+            clamp_value(MiniCar.PH1(), 0, 1023)
+            append_1023_as_b62_building_list(clamped_value)
+            clamp_value(MiniCar.PH2(), 0, 1023)
+            append_1023_as_b62_building_list(clamped_value)
+        }
+        if (true) {
+            current_ultrasonic = MiniCar.ultra()
+            clamp_value(current_ultrasonic, 0, 200)
+            append_int_as_b62_building_list(convertToText(Math.round(Math.map(clamped_value, 0, 200, 0, 61))))
+            clamp_value(current_ultrasonic, 0, 61)
+            append_int_as_b62_building_list(convertToText(Math.round(clamped_value)))
+        }
+        append_1023_as_b62_building_list(Math.round(pins.analogReadPin(AnalogReadWritePin.P2)))
+        string_build = ""
+        for (let value of building_list) {
+            string_build = "" + string_build + value
+        }
+        previous_analog_string_builder = current_analog_string_builder
+        current_analog_string_builder = "A_" + string_build + ""
+        if (previous_analog_string_builder != current_analog_string_builder) {
+            callback(current_analog_string_builder, "")
+        }
     }
-    if (true) {
-        append_int_as_b62_building_list(convertToText(Math.round(input.temperature())))
-        append_255_as_b62_building_list(input.soundLevel())
-        append_255_as_b62_building_list(input.lightLevel())
-        append_360_as_b62_building_list(input.compassHeading())
-    }
-    if (true) {
-        append_s1023_as_b62_building_list(input.acceleration(Dimension.X))
-        append_s1023_as_b62_building_list(input.acceleration(Dimension.Y))
-        append_s1023_as_b62_building_list(input.acceleration(Dimension.Z))
-    }
-    if (true) {
-        append_s255_as_b62_building_list(parseFloat(current_motor_left))
-        append_s255_as_b62_building_list(parseFloat(current_motor_right))
-    }
-    if (true) {
-        clamp_value(MiniCar.PH1(), 0, 1023)
-        append_1023_as_b62_building_list(clamped_value)
-        clamp_value(MiniCar.PH2(), 0, 1023)
-        append_1023_as_b62_building_list(clamped_value)
-    }
-    if (true) {
-        clamp_value(MiniCar.ultra(), 0, 200)
-        append_int_as_b62_building_list(convertToText(Math.round(Math.map(clamped_value, 0, 200, 0, 61))))
-        clamp_value(MiniCar.ultra(), 0, 61)
-        append_int_as_b62_building_list(convertToText(Math.round(clamped_value)))
-    }
-    string_build = ""
-    for (let value of building_list) {
-        string_build = "" + string_build + value
-    }
-    previous_analog_string_builder = current_analog_string_builder
-    current_analog_string_builder = "*A_" + string_build + "*"
-    if (previous_analog_string_builder != current_analog_string_builder) {
-    	
-    }
-    bluetooth.uartWriteLine(current_analog_string_builder)
 }
 input.onLogoEvent(TouchButtonEvent.Released, function () {
     callback("logo", "")
@@ -803,6 +823,8 @@ function request_full_info () {
     callback("CR", current_color_left)
     callback("LT", "" + line_track_left)
     callback("RT", "" + line_track_right)
+    build_and_send_boolean_uart()
+    build_and_send_analog_uart()
 }
 function append_s255_as_b62_building_list (num: number) {
     append_int_as_b62_building_list(convertToText(Math.round(Math.map(num, -255, 255, 0, 61))))
@@ -817,7 +839,9 @@ let pin_2_analog_read_value = 0
 let pin_8_digit_read_value = 0
 let current_analog_string_builder = ""
 let previous_analog_string_builder = ""
+let current_ultrasonic = 0
 let uart_motor_right = ""
+let building_list: string[] = []
 let current_boolean_string_builder = ""
 let previous_boolean_string_builder = ""
 let string_build = ""
@@ -843,7 +867,7 @@ let binary_right_led_green = false
 let binary_right_led_red = false
 let split_list: string[] = []
 let bool_8g = false
-let building_list: string[] = []
+let build_list_b32: string[] = []
 let time_between_state_emit_milliseconds = 0
 time_between_state_emit_milliseconds = 0
 let export_spliter = "_"
@@ -864,7 +888,10 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
-    basic.pause(2000)
+    bluetooth.setTransmitPower(7)
+    basic.pause(1000)
+    bluetooth.setTransmitPower(6)
+    basic.pause(1000)
 })
 basic.forever(function () {
     basic.pause(10)
@@ -966,16 +993,16 @@ basic.forever(function () {
             callback("RT1", "")
         }
         if (current_line_tracking == 1) {
-            line_track_left = 0
-            line_track_right = 1
-            callback("LT0", "")
-            callback("RT1", "")
-        }
-        if (current_line_tracking == 2) {
             line_track_left = 1
             line_track_right = 0
             callback("LT1", "")
             callback("RT0", "")
+        }
+        if (current_line_tracking == 2) {
+            line_track_left = 0
+            line_track_right = 1
+            callback("LT0", "")
+            callback("RT1", "")
         }
         if (current_line_tracking == 3) {
             line_track_left = 0
@@ -1028,9 +1055,13 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
-    basic.pause(100)
+    basic.pause(30)
     build_and_send_boolean_uart()
-    build_and_send_analog_uart()
+    if (false) {
+        basic.pause(50)
+        build_and_send_analog_uart()
+        basic.pause(50)
+    }
 })
 basic.forever(function () {
     current_motor_left = uart_motor_left
