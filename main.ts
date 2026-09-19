@@ -134,9 +134,9 @@ function append_five_boolean_to_b32_build_list (b1: boolean, b2: boolean, b3: bo
 }
 input.onGesture(Gesture.EightG, function () {
     bool_8g = true
+    callback("EV", "8G")
     basic.pause(500)
     bool_8g = false
-    callback("EV", "8G")
 })
 function append_360_as_b62_building_list (_360: number) {
     append_int_as_b62_building_list(convertToText(Math.round(Math.map(_360, 0, 360, 0, 61))))
@@ -264,9 +264,9 @@ input.onGesture(Gesture.TiltLeft, function () {
 })
 input.onGesture(Gesture.SixG, function () {
     bool_6g = true
+    callback("EV", "6G")
     basic.pause(500)
     bool_6g = false
-    callback("EV", "6G")
 })
 input.onGesture(Gesture.ScreenUp, function () {
     callback("EV", "SU")
@@ -750,9 +750,9 @@ input.onLogoEvent(TouchButtonEvent.Pressed, function () {
 })
 input.onGesture(Gesture.ThreeG, function () {
     bool_3g = true
+    callback("EV", "3G")
     basic.pause(500)
     bool_3g = false
-    callback("EV", "3G")
 })
 function build_and_send_analog_uart () {
     if (true) {
@@ -967,9 +967,6 @@ basic.forever(function () {
     if (irRemote.returnIrButton() == irRemote.irButton(IrButton.Hash)) {
         callback("RC", "26")
     }
-})
-basic.forever(function () {
-	
 })
 basic.forever(function () {
     if (time_between_state_emit_milliseconds > 0) {
