@@ -5,7 +5,8 @@
         "core": "*",
         "microphone": "*",
         "Mini Car": "github:keyestudio2019/MiniCar#6a11b75a8fd87ccce69f3d02ed5c1666aaa25e1e",
-        "bluetooth": "*"
+        "bluetooth": "*",
+        "microbit-pxt-blehid - Copy": "github:bsiever/microbit-pxt-blehid#v0.1.0"
     },
     "files": [
         "main.blocks",
