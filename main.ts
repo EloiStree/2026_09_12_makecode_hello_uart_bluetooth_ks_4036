@@ -217,31 +217,10 @@ function callback_if_changed (prefix: string, previous: string, current: string)
         callback(prefix, current)
     }
 }
-bluetooth.onBluetoothConnected(function () {
-    set_color_left_right_from_text("CG")
-    basic.showLeds(`
-        . . . . .
-        . . . . .
-        . . . . .
-        # . . . #
-        # # # # #
-        `)
-    callback("CONNECTED", "")
-})
 function set_color_left_right_from_text (color_text: string) {
     set_color_left(color_text)
     set_color_right(color_text)
 }
-bluetooth.onBluetoothDisconnected(function () {
-    set_color_left_right_from_text("CR")
-    basic.showLeds(`
-        # # # # #
-        # . . . #
-        . . . . .
-        . . . . .
-        . . . . .
-        `)
-})
 function set_right_binary_color_rgb (r: boolean, g: boolean, b: boolean) {
     binary_right_led_red = r
     binary_right_led_green = g
@@ -436,10 +415,6 @@ function clamp_value (value: number, min: number, max: number) {
         }
     }
 }
-bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
-    queue_data_waiting.push(bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine)))
-    received_data_pack_count += 1
-})
 function check_for_servo (text: string) {
     if (0 == text.indexOf("PS_")) {
         split_list = text.split("_")
@@ -754,6 +729,21 @@ input.onGesture(Gesture.ThreeG, function () {
     basic.pause(500)
     bool_3g = false
 })
+serial.onDataReceived(serial.delimiters(Delimiters.NewLine), function () {
+    last_serial_value_received = serial.readUntil(serial.delimiters(Delimiters.NewLine))
+    queue_data_waiting.push(last_serial_value_received)
+    received_data_pack_count += 1
+    if (last_serial_value_received == "1175") {
+        media.sendCode(media.keys(media._MediaKey.next))
+        set_color_left_right_from_text("CR")
+        absmouse.movexy(30357, 28699)
+    }
+    if (last_serial_value_received == "1174") {
+        media.sendCode(media.keys(media._MediaKey.previous))
+        set_color_left_right_from_text("CY")
+        absmouse.movexy(6252, 7759)
+    }
+})
 function build_and_send_analog_uart () {
     if (true) {
         building_list = []
@@ -840,6 +830,9 @@ let pin_8_digit_read_value = 0
 let current_analog_string_builder = ""
 let previous_analog_string_builder = ""
 let current_ultrasonic = 0
+let received_data_pack_count = 0
+let queue_data_waiting: string[] = []
+let last_serial_value_received = ""
 let uart_motor_right = ""
 let building_list: string[] = []
 let current_boolean_string_builder = ""
@@ -851,8 +844,6 @@ let binary_left_led_red = false
 let line_track_right = 0
 let line_track_left = 0
 let bool_3g = false
-let received_data_pack_count = 0
-let queue_data_waiting: string[] = []
 let clamped_value = 0
 let uart_motor_left = ""
 let current_color_right = ""
@@ -877,6 +868,15 @@ basic.showIcon(IconNames.Square)
 set_motors("255", "255")
 basic.pause(100)
 set_motors("0", "0")
+gamepad.startGamepadService()
+media.startMediaService()
+absmouse.startAbsoluteMouseService()
+serial.redirect(
+SerialPin.P2,
+SerialPin.P8,
+BaudRate.BaudRate9600
+)
+set_color_left_right_from_text("CG")
 basic.forever(function () {
     let is_reading_pin_right_analog = 0
     let is_reading_pin_left_digit = 0
